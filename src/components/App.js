@@ -14,11 +14,13 @@ class App extends React.Component {
 
   getContacts = (newContact) => {
     newContact['id'] = uuidv4();
-    this.setState((prev)=>prev.contacts.push(newContact))
+    this.setState((prev) => ({...prev, contacts: [...prev.contacts, newContact]}))
   }
 
-  deleteContact = (idx) => {
-    this.setState((prev) => prev.contacts.splice(idx, 1))
+  deleteContact = (id) => {
+    const newContacts = this.state.contacts.filter((elem) => { return elem.id !== id})
+    this.setState((prev) => ({...prev, contacts:[...newContacts]}))
+
   }
 
   getNamesByFilter = (value) => {
@@ -30,13 +32,14 @@ class App extends React.Component {
     this.state.filter ? filteredItems = this.state.contacts.filter(el => (
         el.name.toLowerCase().includes(this.state.filter.toLowerCase())))
       : filteredItems = this.state.contacts;
+      
     return (
       <>
         <h1 className="title">Phonebook</h1>
         <ContactForm {...this.state} getContacts={this.getContacts}/>
         <h2 className="title">Contacts</h2>
         <Filter getNamesByFilter = {this.getNamesByFilter}/>
-        <ContactList filteredItems={filteredItems} getIndexForDelete={this.deleteContact}/>
+        <ContactList filteredItems={filteredItems} getIdForDelete={this.deleteContact}/>
       </>
     );
   }

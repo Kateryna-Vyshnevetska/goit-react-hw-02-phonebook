@@ -1,9 +1,10 @@
 import React from 'react';
 import ContactItem from './contactItem/ContactItem'
-const ContactList = ({filteredItems, getIndexForDelete}) => {
+
+const ContactList = ({filteredItems, getIdForDelete}) => {
 
   const delItem = (id) => {
-    filteredItems.map(el => el.id===id ? getIndexForDelete(filteredItems.indexOf(el)) : '');
+    getIdForDelete(id)
   }
 
   return(
